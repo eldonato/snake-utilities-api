@@ -1,0 +1,41 @@
+GET http://localhost:5069/buscar-cep/58079040
+
+###
+
+POST http://localhost:5069/etiqueta-correios
+Content-Type: application/json
+
+{
+  "Remetente": {
+    "Endereco": {
+      "Cep": "58079040",
+      "Logradouro": "Rua Maria Auxiliadora Patrício Gouveia",
+      "Numero": "68",
+      "Bairro": "Funcionários III",
+      "Cidade": "João Pessoa",
+      "Uf": "SP",
+      "Pais": "Brasil",
+      "Complemento": "Casa Casa Casa Casa Casa Casa Casa Casa Casa Casa Casa Casa Casa Casa Casa Casa Casa Casa Casa "
+    },
+    "Pessoa": {
+      "Nome": "Leonardo Victor Andrade Donato",
+      "Telefone": "83988538415"
+    }
+  },
+  "Destinatario": {
+    "Endereco": {
+      "Cep": "82-928-912",
+      "Logradouro": "Rua Das dores",
+      "Bairro": "Valentina III",
+      "Cidade": "Campina Grande",
+      "Uf": "RJ",
+      "Pais": "Brasil"
+    },
+    "Pessoa": {
+      "Nome": "Carlos Eduardo Santos Sousa",
+      "Telefone": "25971445236"
+    }
+  }
+}
+
+###
