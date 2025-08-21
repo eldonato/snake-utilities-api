@@ -17,7 +17,24 @@ builder.Services.AddHttpClient();
 
 QuestPDF.Settings.License = LicenseType.Community;
 
+var corsPadrao = "CorsPadrao";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: corsPadrao,
+        policy =>
+        {
+            // Para desenvolvimento, você pode ser mais permissivo
+            // Lembre-se de ser mais restritivo em produção!
+            policy.WithOrigins("http://localhost:3000") // A URL do seu frontend Vue
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
+
+app.UseCors(corsPadrao);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -32,12 +49,10 @@ app.MapGet("/buscar-cep/{cep}", async (string cep, IServicoCorreios servico) => 
 app.MapPost("/etiqueta-correios", (Etiqueta etiqueta, IServicoCorreios servico) =>
 {
     var bytes = servico.GerarPdf(etiqueta);
-    var result = new HttpResponseMessage(HttpStatusCode.OK);
     
-    result.Content = new ByteArrayContent(bytes);
-    result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+    var nomeArquivo = $"etiqueta_{DateTime.UtcNow:yyyyMMdd_HHmmss}.pdf";
     
-    return result;
+    return Results.File(bytes, "application/pdf", nomeArquivo);
 });
 
 app.Run();

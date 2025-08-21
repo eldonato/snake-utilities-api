@@ -4,7 +4,7 @@ using SnakeUtilities.Modelos.EtiquetaCorreios;
 
 namespace SnakeUtilities.Utils.Pdf.Componentes;
 
-public class ComponenteEndereco(string titulo, Secao secao) : IComponent
+public class ComponenteEndereco(string titulo, DadosDeEnvio dadosDeEnvio) : IComponent
 {
     public void Compose(IContainer container)
     {
@@ -21,19 +21,19 @@ public class ComponenteEndereco(string titulo, Secao secao) : IComponent
                 
                 col.Item().Row(row =>
                 {
-                    row.RelativeItem(0.7F).Border(1).PaddingHorizontal(5).PaddingVertical(1).Text(secao.Pessoa?.Nome);
-                    row.RelativeItem(0.3F).Border(1).PaddingHorizontal(5).PaddingVertical(1).Text(FormatarCelular(secao.Pessoa?.Telefone));
+                    row.RelativeItem(0.7F).Border(1).PaddingHorizontal(5).PaddingVertical(1).Text(dadosDeEnvio.Nome);
+                    row.RelativeItem(0.3F).Border(1).PaddingHorizontal(5).PaddingVertical(1).Text(FormatarCelular(dadosDeEnvio.Telefone));
                     row.Spacing(5);
                 });
                 
-                col.Item().Border(1).PaddingHorizontal(5).PaddingVertical(1).Text(FormatarLogradouro(secao.Endereco));
+                col.Item().Border(1).PaddingHorizontal(5).PaddingVertical(1).Text(FormatarLogradouro(dadosDeEnvio));
                 
                 col.Item().Row(row =>
                 {
-                    row.RelativeItem(0.2F).Border(1).PaddingHorizontal(5).PaddingVertical(1).Text(FormatarCep(secao.Endereco?.Cep));
-                    row.RelativeItem(0.3F).Border(1).PaddingHorizontal(5).PaddingVertical(1).Text(secao.Endereco?.Cidade);
-                    row.RelativeItem(0.25F).Border(1).PaddingHorizontal(5).PaddingVertical(1).Text(FormatarCelular(secao.Endereco?.Uf));
-                    row.RelativeItem(0.25F).Border(1).PaddingHorizontal(5).PaddingVertical(1).Text(FormatarCelular(secao.Endereco?.Pais));
+                    row.RelativeItem(0.2F).Border(1).PaddingHorizontal(5).PaddingVertical(1).Text(FormatarCep(dadosDeEnvio.Cep));
+                    row.RelativeItem(0.3F).Border(1).PaddingHorizontal(5).PaddingVertical(1).Text(dadosDeEnvio.Cidade);
+                    row.RelativeItem(0.25F).Border(1).PaddingHorizontal(5).PaddingVertical(1).Text(FormatarCelular(dadosDeEnvio.Uf));
+                    row.RelativeItem(0.25F).Border(1).PaddingHorizontal(5).PaddingVertical(1).Text("Brasil");
                     row.Spacing(5);
                 });
                 
@@ -41,11 +41,11 @@ public class ComponenteEndereco(string titulo, Secao secao) : IComponent
             });
     }
 
-    private static string FormatarLogradouro(Endereco? endereco)
+    private static string FormatarLogradouro(DadosDeEnvio? endereco)
     {
         if (endereco == null) return string.Empty;
         
-        var rua =  endereco.Logradouro;
+        var rua =  endereco.Rua;
         var numero = string.IsNullOrEmpty(endereco.Numero) ? "S/N" : $"nº {endereco.Numero}";
         var bairro = endereco.Bairro;
         var complemento =  string.IsNullOrEmpty(endereco.Complemento) ? string.Empty : $", {endereco.Complemento}";

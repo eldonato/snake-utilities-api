@@ -2,6 +2,6 @@
 
 public class Etiqueta
 {
-    public Secao? Remetente { get; set; }
-    public List<Secao> Destinatarios { get; set; } = [];
+    public DadosDeEnvio? Remetente { get; set; }
+    public List<DadosDeEnvio> Destinatarios { get; set; } = [];
 }
