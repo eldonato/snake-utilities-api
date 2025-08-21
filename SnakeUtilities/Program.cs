@@ -1,5 +1,3 @@
-using System.Net;
-using System.Net.Http.Headers;
 using QuestPDF.Infrastructure;
 using SnakeUtilities.Modelos.EtiquetaCorreios;
 using SnakeUtilities.Servicos;
@@ -44,9 +42,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/buscar-cep/{cep}", async (string cep, IServicoCorreios servico) => await servico.ObterEndereco(cep));
+app.MapGet("/correios/buscar-cep/{cep}", async (string cep, IServicoCorreios servico) => await servico.ObterEndereco(cep));
 
-app.MapPost("/etiqueta-correios", (Etiqueta etiqueta, IServicoCorreios servico) =>
+app.MapPost("/correios/etiqueta-pdf", (Etiqueta etiqueta, IServicoCorreios servico) =>
 {
     var bytes = servico.GerarPdf(etiqueta);
     
